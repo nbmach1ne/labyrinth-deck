@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/models/tiles/Big_Door.mesh" type="ArrayMesh" id=1]
+[ext_resource path="res://assets/models/tiles/Wall.mesh" type="ArrayMesh" id=2]
+[ext_resource path="res://assets/models/tiles/Floor_Dark.mesh" type="ArrayMesh" id=3]
+[ext_resource path="res://assets/models/tiles/Floor_Light.mesh" type="ArrayMesh" id=4]
+[ext_resource path="res://assets/models/tiles/Small_Door.mesh" type="ArrayMesh" id=5]
+[ext_resource path="res://assets/models/tiles/Wall_Window.mesh" type="ArrayMesh" id=6]
+[ext_resource path="res://assets/models/materials/flat_colors.tres" type="Material" id=7]
+
+[node name="maze_assets" type="Spatial"]
+
+[node name="Floor_Light" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 8 )
+mesh = ExtResource( 4 )
+material/0 = ExtResource( 7 )
+
+[node name="Big_Door" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 7 )
+
+[node name="Small_Door" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0 )
+mesh = ExtResource( 5 )
+material/0 = ExtResource( 7 )
+
+[node name="Wall" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8 )
+mesh = ExtResource( 2 )
+material/0 = ExtResource( 7 )
+
+[node name="Wall_Window" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8 )
+mesh = ExtResource( 6 )
+material/0 = ExtResource( 7 )
+
+[node name="Floor_Dark" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 8 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 7 )

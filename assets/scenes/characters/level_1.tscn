@@ -1,0 +1,149 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://assets/sprites/cards/down_1.png" type="Texture" id=1]
+[ext_resource path="res://assets/scenes/characters/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/scripts/EnemiesControl.cs" type="Script" id=3]
+[ext_resource path="res://assets/scenes/characters/enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/scripts/CameraFollow.cs" type="Script" id=5]
+[ext_resource path="res://assets/scenes/mazes/maze_1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/sprites/cards/right_5.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/cards/down_3.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/cards/right_4.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/cards/up_2.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/bottom_panel.png" type="Texture" id=11]
+[ext_resource path="res://assets/sprites/cards/up_1.png" type="Texture" id=12]
+[ext_resource path="res://assets/sprites/cards/down_2.png" type="Texture" id=13]
+[ext_resource path="res://assets/scripts/HUD.cs" type="Script" id=14]
+[ext_resource path="res://assets/sprites/cards/up_3.png" type="Texture" id=15]
+[ext_resource path="res://assets/sprites/cards/left_3.png" type="Texture" id=16]
+[ext_resource path="res://assets/sprites/cards/up_5.png" type="Texture" id=17]
+[ext_resource path="res://assets/sprites/cards/down_5.png" type="Texture" id=18]
+[ext_resource path="res://assets/sprites/cards/right_1.png" type="Texture" id=19]
+[ext_resource path="res://assets/sprites/cards/right_3.png" type="Texture" id=20]
+[ext_resource path="res://assets/sprites/cards/left_1.png" type="Texture" id=21]
+[ext_resource path="res://assets/sprites/cards/right_2.png" type="Texture" id=22]
+[ext_resource path="res://assets/sprites/cards/up_4.png" type="Texture" id=23]
+[ext_resource path="res://assets/sprites/cards/down_4.png" type="Texture" id=24]
+[ext_resource path="res://assets/sprites/cards/left_4.png" type="Texture" id=25]
+[ext_resource path="res://assets/sprites/cards/left_5.png" type="Texture" id=26]
+[ext_resource path="res://assets/sprites/cards/left_2.png" type="Texture" id=27]
+[ext_resource path="res://assets/scripts/Game.cs" type="Script" id=28]
+[ext_resource path="res://assets/scripts/CardUI.cs" type="Script" id=29]
+[ext_resource path="res://assets/sprites/cards/stun.png" type="Texture" id=30]
+[ext_resource path="res://assets/sprites/cards/draw_again.png" type="Texture" id=31]
+
+[sub_resource type="Environment" id=1]
+background_mode = 1
+background_color = Color( 0.278431, 0.184314, 0.396078, 1 )
+
+[node name="level_1" type="Node"]
+script = ExtResource( 28 )
+
+[node name="environment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="maze" parent="." instance=ExtResource( 6 )]
+
+[node name="player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, 68 )
+_initialTile = Vector2( 7, 17 )
+
+[node name="camera" parent="player/camera_pivot" index="0"]
+current = false
+near = 9.0
+far = 132.0
+
+[node name="enemies_control" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="enemy" parent="enemies_control" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 48 )
+_initialTile = Vector2( 13, 12 )
+_type = 1
+_maxMovementSteps = 2
+
+[node name="enemy2" parent="enemies_control" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 24 )
+_initialTile = Vector2( 1, 6 )
+_minMovementSteps = 3
+
+[node name="HUD" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_cardSprites = [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 15 ), ExtResource( 23 ), ExtResource( 17 ), ExtResource( 1 ), ExtResource( 13 ), ExtResource( 8 ), ExtResource( 24 ), ExtResource( 18 ), ExtResource( 21 ), ExtResource( 27 ), ExtResource( 16 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 20 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 31 ), ExtResource( 30 ) ]
+
+[node name="bottom_panel" type="TextureRect" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -256.0
+margin_top = -128.0
+margin_right = 256.0
+texture = ExtResource( 11 )
+
+[node name="card_1" type="TextureButton" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -192.0
+margin_top = -152.0
+margin_right = -64.0
+rect_pivot_offset = Vector2( 64, 76 )
+texture_normal = ExtResource( 1 )
+script = ExtResource( 29 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="card_2" type="TextureButton" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = -152.0
+margin_right = 64.0
+rect_pivot_offset = Vector2( 64, 76 )
+texture_normal = ExtResource( 1 )
+script = ExtResource( 29 )
+
+[node name="card_3" type="TextureButton" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_top = -152.0
+margin_right = 192.0
+rect_pivot_offset = Vector2( 64, 76 )
+texture_normal = ExtResource( 1 )
+script = ExtResource( 29 )
+
+[node name="game_over" type="Control" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="camera_follow" type="Spatial" parent="."]
+transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 22, 35, 85 )
+script = ExtResource( 5 )
+_offset = Vector3( -6, 35, 17 )
+
+[node name="camera" type="Camera" parent="camera_follow"]
+transform = Transform( 1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0 )
+keep_aspect = 0
+current = true
+
+[connection signal="mouse_entered" from="HUD/card_1" to="HUD/card_1" method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="HUD/card_1" to="HUD/card_1" method="_on_card_mouse_exited"]
+[connection signal="mouse_entered" from="HUD/card_2" to="HUD/card_2" method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="HUD/card_2" to="HUD/card_2" method="_on_card_mouse_exited"]
+[connection signal="mouse_entered" from="HUD/card_3" to="HUD/card_3" method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="HUD/card_3" to="HUD/card_3" method="_on_card_mouse_exited"]
+
+[editable path="player"]

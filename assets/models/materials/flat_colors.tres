@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://assets/models/materials/palette.png" type="Texture" id=1]
+[ext_resource path="res://assets/models/materials/flat_colors.gdshader" type="Shader" id=2]
+
+[resource]
+shader = ExtResource( 2 )
+shader_param/tint = Color( 1, 1, 1, 1 )
+shader_param/texture = ExtResource( 1 )
