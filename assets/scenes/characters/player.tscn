@@ -55,11 +55,10 @@ script = ExtResource( 1 )
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 2, 0, 2 )
 
 [node name="camera_pivot" type="Spatial" parent="."]
-transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -5, 32, 25 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1319, 1.17544, 7.02411 )
 
 [node name="camera" type="Camera" parent="camera_pivot"]
-transform = Transform( 1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0 )
-projection = 1
+transform = Transform( 1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0 )
 current = true
 size = 60.0
 near = 0.01
