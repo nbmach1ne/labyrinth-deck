@@ -23,12 +23,14 @@ namespace LabyrinthDeck
         {
             GD.Print("CARD_ENTERED");
             RectScale = _mouseOverScale;
+            Material.Set("shader_param/noise_scale", 2f);
         }
 
         public void _on_card_mouse_exited()
         {
             GD.Print("CARD_EXITED");
             RectScale = Vector2.One;
+            Material.Set("shader_param/noise_scale", 0f);
         }
     }
 }

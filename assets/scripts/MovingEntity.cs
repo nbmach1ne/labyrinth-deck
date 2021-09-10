@@ -27,6 +27,7 @@ namespace LabyrinthDeck
         private int _currentStep;
         private List<Maze.Direction> _pendingSteps;
         private Tween _stepsTween;
+        private AnimationPlayer _anim;
         private Spatial _characterModel;
 
         private Maze.TilePos _currentTile;
@@ -43,6 +44,7 @@ namespace LabyrinthDeck
         public override void _Ready()
         {
             _stepsTween = GetNode<Tween>("tween");
+            _anim = GetNode<AnimationPlayer>("anim");
             _characterModel = GetNode<Spatial>("character");
         }
 
@@ -50,6 +52,7 @@ namespace LabyrinthDeck
         {
             CurrentTile = new Maze.TilePos((int)_initialTile.x, (int)_initialTile.y);
             _characterModel.Rotation = GetRotation(Maze.Direction.UP);
+            _anim?.Play("idle");
         }
 
         public void SubscribeToGameEvents(Game game)
@@ -64,7 +67,10 @@ namespace LabyrinthDeck
             _currentStep = 0;
             Step(_pendingSteps[_currentStep]);
         }
-        protected virtual void FinishMovement() {}
+        protected virtual void FinishMovement()
+        {
+            _anim?.Play("idle");
+        }
 
         protected void OnGameOver()
         {
@@ -85,6 +91,8 @@ namespace LabyrinthDeck
         private void Step(Maze.Direction direction)
         {
             _characterModel.Rotation = GetRotation(direction);
+
+            _anim?.Play("step");
 
             // MOVE
             Vector3 startPos = CurrentTile.ToWorldPos();

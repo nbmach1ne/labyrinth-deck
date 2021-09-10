@@ -81,6 +81,8 @@ namespace LabyrinthDeck
 
         public void FinishTurn()
         {
+            base.FinishMovement();
+            
             _turnsCount++;
             CheckState();
         }
