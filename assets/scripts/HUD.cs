@@ -14,26 +14,22 @@ namespace LabyrinthDeck
         delegate void ResetGame();
 
         private Godot.Collections.Array<CardUI> _cardButtons;
-        private Control _gameOver;
 
         public override void _Ready()
         {
             _cardButtons =  new Godot.Collections.Array<CardUI>();
-            _cardButtons.Add(GetNode<CardUI>("card_1"));
-            _cardButtons.Add(GetNode<CardUI>("card_2"));
-            _cardButtons.Add(GetNode<CardUI>("card_3"));
 
-            for (int i = 0; i < _cardButtons.Count; i++)
+            for (int i = 0; i < 3; i++)
             {
-                _cardButtons[i].Connect("button_down", this, nameof(OnCardPressed), new Godot.Collections.Array { i });
+                CardUI card = GetNode<CardUI>("card_" + i);
+                card.Connect("button_down", this, nameof(OnCardPressed), new Godot.Collections.Array { i });
+                _cardButtons.Add(card);
             }
-
-            _gameOver = GetNode<Control>("game_over");
         }
 
         public void Init()
         {
-            _gameOver.Visible = false;
+            InitCards();
         }
 
         public void SubscribeToGameEvents(Game game)
@@ -53,11 +49,21 @@ namespace LabyrinthDeck
             {
                 _cardButtons[i].SetCard(cards[i], GetTexture(cards[i]));
             }
-
-            ShowCards(true);
         }
 
-        public Texture GetTexture(Card card)
+        private void InitCards()
+        {
+            Control cardsHiddenPos = GetNode<Control>("cards_hidden_pos");
+            Control cardsChoosenPos = GetNode<Control>("cards_choosen_pos");
+
+            for (int i = 0; i < _cardButtons.Count; i++)
+            {
+                Control cardShownPos = GetNode<Control>("cards_shown_pos_" + i);
+                _cardButtons[i].SetTweenValues(cardsHiddenPos, cardShownPos, cardsChoosenPos);
+            }
+        }
+
+        private Texture GetTexture(Card card)
         {
             GD.Print(card.Type.ToString());
             switch(card.Type)
@@ -76,17 +82,25 @@ namespace LabyrinthDeck
             return null;
         }
 
-        private void ShowCards(bool visible)
+        private void HideCards(int choosenCardIdx)
         {
             for (int i = 0; i < _cardButtons.Count; i++)
             {
-                _cardButtons[i].Visible = visible;
+                if (i != choosenCardIdx)
+                {
+                    _cardButtons[i].HideCard();
+                }
             }
         }
 
         private void OnCardPressed(int cardIndex)
         {
-            ShowCards(false);
+            HideCards(cardIndex);
+            _cardButtons[cardIndex].ChooseCard(this, nameof(OnCardSelected), cardIndex);  
+        }
+
+        private void OnCardSelected(int cardIndex)
+        {
             EmitSignal(nameof(CardSelected), _cardButtons[cardIndex].GetCard());
         }
 
@@ -98,7 +112,6 @@ namespace LabyrinthDeck
         private void OnGameOver()
         {
             GD.Print("OnGameOver");
-            _gameOver.Visible = true;
         }
     }
 }

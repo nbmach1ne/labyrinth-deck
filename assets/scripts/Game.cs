@@ -35,11 +35,19 @@ namespace LabyrinthDeck
             InitMaze();
             InitPlayer();
             InitEnemies();
-            InitHUD();
             InitCamera();
 
             _rng = new RandomNumberGenerator();
             _rng.Randomize();
+
+            InitDelayed();
+        }
+
+        private async void InitDelayed()
+        {
+            await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+
+            InitHUD();
 
             _state = GameState.PLAYER_TURN;
             PlayTurn();

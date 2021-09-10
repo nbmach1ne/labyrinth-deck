@@ -101,8 +101,11 @@ margin_left = -256.0
 margin_top = -128.0
 margin_right = 256.0
 texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="card_1" type="TextureButton" parent="HUD"]
+[node name="card_0" type="TextureButton" parent="HUD"]
 material = SubResource( 2 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -117,8 +120,11 @@ script = ExtResource( 29 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_showDelay = 0.0
 
-[node name="card_2" type="TextureButton" parent="HUD"]
+[node name="tween" type="Tween" parent="HUD/card_0"]
+
+[node name="card_1" type="TextureButton" parent="HUD"]
 material = SubResource( 3 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -133,8 +139,11 @@ script = ExtResource( 29 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_showDelay = 0.1
 
-[node name="card_3" type="TextureButton" parent="HUD"]
+[node name="tween" type="Tween" parent="HUD/card_1"]
+
+[node name="card_2" type="TextureButton" parent="HUD"]
 material = SubResource( 4 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -149,10 +158,77 @@ script = ExtResource( 29 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_showDelay = 0.2
+
+[node name="tween" type="Tween" parent="HUD/card_2"]
 
 [node name="game_over" type="Control" parent="HUD"]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cards_hidden_pos" type="Control" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = 112.0
+margin_right = 64.0
+margin_bottom = 264.0
+rect_pivot_offset = Vector2( 64, 76 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cards_choosen_pos" type="Control" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = -200.0
+margin_right = 64.0
+margin_bottom = -48.0
+rect_scale = Vector2( 1.25, 1.25 )
+rect_pivot_offset = Vector2( 64, 76 )
+mouse_filter = 2
+
+[node name="cards_shown_pos_0" type="Control" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -192.0
+margin_top = -152.0
+margin_right = -64.0
+rect_pivot_offset = Vector2( 64, 76 )
+mouse_filter = 2
+
+[node name="cards_shown_pos_1" type="Control" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = -152.0
+margin_right = 64.0
+rect_pivot_offset = Vector2( 64, 76 )
+mouse_filter = 2
+
+[node name="cards_shown_pos_2" type="Control" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_top = -152.0
+margin_right = 192.0
+rect_pivot_offset = Vector2( 64, 76 )
+mouse_filter = 2
 
 [node name="camera_follow" type="Spatial" parent="."]
 transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 22, 35, 85 )
@@ -164,11 +240,11 @@ transform = Transform( 1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0
 keep_aspect = 0
 current = true
 
+[connection signal="mouse_entered" from="HUD/card_0" to="HUD/card_0" method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="HUD/card_0" to="HUD/card_0" method="_on_card_mouse_exited"]
 [connection signal="mouse_entered" from="HUD/card_1" to="HUD/card_1" method="_on_card_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/card_1" to="HUD/card_1" method="_on_card_mouse_exited"]
 [connection signal="mouse_entered" from="HUD/card_2" to="HUD/card_2" method="_on_card_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/card_2" to="HUD/card_2" method="_on_card_mouse_exited"]
-[connection signal="mouse_entered" from="HUD/card_3" to="HUD/card_3" method="_on_card_mouse_entered"]
-[connection signal="mouse_exited" from="HUD/card_3" to="HUD/card_3" method="_on_card_mouse_exited"]
 
 [editable path="player"]
