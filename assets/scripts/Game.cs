@@ -36,21 +36,10 @@ namespace LabyrinthDeck
             InitPlayer();
             InitEnemies();
             InitCamera();
+            InitHUD();
 
             _rng = new RandomNumberGenerator();
             _rng.Randomize();
-
-            InitDelayed();
-        }
-
-        private async void InitDelayed()
-        {
-            await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-
-            InitHUD();
-
-            _state = GameState.PLAYER_TURN;
-            PlayTurn();
         }
 
         private void InitMaze()
@@ -70,8 +59,8 @@ namespace LabyrinthDeck
         private void InitHUD()
         {
             _hud = GetNode<HUD>("HUD");
-            _hud.Init();
             _hud.SubscribeToGameEvents(this);
+            _hud.Connect("UIReady", this, nameof(OnUIReady));
             _hud.Connect("CardSelected", this, nameof(OnCardSelected));
             _hud.Connect("ResetGame", this, nameof(OnResetGame));
         }
@@ -206,6 +195,14 @@ namespace LabyrinthDeck
             }
         }
 
+        private void OnUIReady()
+        {
+            _hud.InitCardsPositions();
+
+            _state = GameState.PLAYER_TURN;
+            PlayTurn();
+        }
+
         private void OnCardSelected(Card card)
         {
             if (card.IsMovementCard)
@@ -267,7 +264,7 @@ namespace LabyrinthDeck
         {
             _player.Init();
             _enemies.RestartEnemies();
-            _hud.Init();
+            _hud.InitCardsPositions();
 
             _state = GameState.PLAYER_TURN;
             PlayTurn();

@@ -9,14 +9,20 @@ namespace LabyrinthDeck
         private Texture[] _cardSprites;
 
         [Signal]
+        delegate void UIReady();
+        [Signal]
         delegate void CardSelected(Card card);
         [Signal]
         delegate void ResetGame();
 
         private Godot.Collections.Array<CardUI> _cardButtons;
+        private Fade _fade;
 
         public override void _Ready()
         {
+            _fade = GetNode<Fade>("fade");
+            _fade.Connect("FadeOutFinished", this, nameof(OnFadeFinished));
+
             _cardButtons =  new Godot.Collections.Array<CardUI>();
 
             for (int i = 0; i < 3; i++)
@@ -27,9 +33,16 @@ namespace LabyrinthDeck
             }
         }
 
-        public void Init()
+        public void InitCardsPositions()
         {
-            InitCards();
+            Control cardsHiddenPos = GetNode<Control>("cards_hidden_pos");
+            Control cardsChoosenPos = GetNode<Control>("cards_choosen_pos");
+
+            for (int i = 0; i < _cardButtons.Count; i++)
+            {
+                Control cardShownPos = GetNode<Control>("cards_shown_pos_" + i);
+                _cardButtons[i].SetTweenValues(cardsHiddenPos, cardShownPos, cardsChoosenPos);
+            }
         }
 
         public void SubscribeToGameEvents(Game game)
@@ -48,18 +61,6 @@ namespace LabyrinthDeck
             for (int i = 0; i < _cardButtons.Count; i++)
             {
                 _cardButtons[i].SetCard(cards[i], GetTexture(cards[i]));
-            }
-        }
-
-        private void InitCards()
-        {
-            Control cardsHiddenPos = GetNode<Control>("cards_hidden_pos");
-            Control cardsChoosenPos = GetNode<Control>("cards_choosen_pos");
-
-            for (int i = 0; i < _cardButtons.Count; i++)
-            {
-                Control cardShownPos = GetNode<Control>("cards_shown_pos_" + i);
-                _cardButtons[i].SetTweenValues(cardsHiddenPos, cardShownPos, cardsChoosenPos);
             }
         }
 
@@ -91,6 +92,11 @@ namespace LabyrinthDeck
                     _cardButtons[i].HideCard();
                 }
             }
+        }
+
+        private void OnFadeFinished()
+        {
+            EmitSignal(nameof(UIReady));
         }
 
         private void OnCardPressed(int cardIndex)
