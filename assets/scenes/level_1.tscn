@@ -160,7 +160,7 @@ script = ExtResource( 6 )
 
 [node name="enemy" parent="enemies_control" instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 48 )
-_initialTile = Vector2( 13, 12 )
+_initialTile = Vector2( 12, 13 )
 _type = 1
 _maxMovementSteps = 2
 
@@ -168,6 +168,20 @@ _maxMovementSteps = 2
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 24 )
 _initialTile = Vector2( 1, 6 )
 _minMovementSteps = 3
+
+[node name="camera_follow" type="Spatial" parent="."]
+transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 22, 35, 85 )
+script = ExtResource( 2 )
+_offset = Vector3( -6, 35, 17 )
+_focusedOffset = Vector3( -6, 35, 24 )
+_focusFov = 30.0
+
+[node name="camera" type="Camera" parent="camera_follow"]
+transform = Transform( 1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0 )
+keep_aspect = 0
+current = true
+
+[node name="tween" type="Tween" parent="camera_follow"]
 
 [node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
@@ -329,16 +343,6 @@ rect_pivot_offset = Vector2( 64, 76 )
 mouse_filter = 2
 
 [node name="fade" parent="HUD" instance=ExtResource( 34 )]
-
-[node name="camera_follow" type="Spatial" parent="."]
-transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 22, 35, 85 )
-script = ExtResource( 2 )
-_offset = Vector3( -6, 35, 17 )
-
-[node name="camera" type="Camera" parent="camera_follow"]
-transform = Transform( 1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0 )
-keep_aspect = 0
-current = true
 
 [connection signal="mouse_entered" from="HUD/card_0" to="HUD/card_0" method="_on_card_mouse_entered"]
 [connection signal="mouse_exited" from="HUD/card_0" to="HUD/card_0" method="_on_card_mouse_exited"]

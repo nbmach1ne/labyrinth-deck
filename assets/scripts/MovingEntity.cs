@@ -85,6 +85,7 @@ namespace LabyrinthDeck
         private void Stop()
         {
             _pendingSteps = null;
+            _anim?.Stop();
             _stepsTween.RemoveAll();
         }
 

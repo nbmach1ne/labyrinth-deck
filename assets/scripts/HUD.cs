@@ -11,6 +11,8 @@ namespace LabyrinthDeck
         [Signal]
         delegate void UIReady();
         [Signal]
+        delegate void ChangeScene();
+        [Signal]
         delegate void CardSelected(Card card);
         [Signal]
         delegate void ResetGame();
@@ -21,7 +23,8 @@ namespace LabyrinthDeck
         public override void _Ready()
         {
             _fade = GetNode<Fade>("fade");
-            _fade.Connect("FadeOutFinished", this, nameof(OnFadeFinished));
+            _fade.Connect("FadeOutFinished", this, nameof(OnFadeOutFinished));
+            _fade.Connect("FadeInFinished", this, nameof(OnFadeInFinished));
 
             _cardButtons =  new Godot.Collections.Array<CardUI>();
 
@@ -31,6 +34,11 @@ namespace LabyrinthDeck
                 card.Connect("button_down", this, nameof(OnCardPressed), new Godot.Collections.Array { i });
                 _cardButtons.Add(card);
             }
+        }
+
+        public void FadeIn()
+        {
+            _fade.FadeIn();
         }
 
         public void InitCardsPositions()
@@ -94,9 +102,14 @@ namespace LabyrinthDeck
             }
         }
 
-        private void OnFadeFinished()
+        private void OnFadeOutFinished()
         {
             EmitSignal(nameof(UIReady));
+        }
+
+        private void OnFadeInFinished()
+        {
+            EmitSignal(nameof(ChangeScene));
         }
 
         private void OnCardPressed(int cardIndex)

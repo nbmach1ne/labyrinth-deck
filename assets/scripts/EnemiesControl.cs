@@ -37,6 +37,14 @@ namespace LabyrinthDeck
             _enemiesToMove = 0;
         }
 
+        public void SubscribeToGameEvents(Game game)
+        {
+            for (int i = 0; i < _enemies.Count; i++)
+            {
+                _enemies[i].SubscribeToGameEvents(game);
+            }
+        }
+
         public void RestartEnemies()
         {
             for (int i = 0; i < _enemies.Count; i++)

@@ -1,10 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://assets/models/characters/dalia.tscn" type="PackedScene" id=2]
 
-[sub_resource type="Animation" id=1]
-resource_name = "idle"
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 2, 1.914, 2 )
+
+[sub_resource type="Animation" id=2]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("character:scale")
@@ -19,8 +21,7 @@ tracks/0/keys = {
 "values": [ Vector3( 1, 1, 1 ), Vector3( 1, 0.9, 1 ), Vector3( 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "step"
+[sub_resource type="Animation" id=3]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -54,6 +55,15 @@ script = ExtResource( 1 )
 [node name="character" parent="." instance=ExtResource( 2 )]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 2, 0, 2 )
 
+[node name="area" type="Area" parent="character"]
+transform = Transform( -1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 0, 0 )
+monitorable = false
+collision_layer = 0
+
+[node name="collision" type="CollisionShape" parent="character/area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.96207, 0 )
+shape = SubResource( 1 )
+
 [node name="camera_pivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1319, 1.17544, 7.02411 )
 
@@ -67,5 +77,7 @@ far = 8192.0
 [node name="tween" type="Tween" parent="."]
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 1 )
-anims/step = SubResource( 2 )
+anims/idle = SubResource( 2 )
+anims/step = SubResource( 3 )
+
+[connection signal="area_entered" from="character/area" to="." method="OnAreaEntered"]

@@ -8,7 +8,8 @@ namespace LabyrinthDeck
         private enum GameState
         {
             PLAYER_TURN,
-            ENEMIES_TURN
+            ENEMIES_TURN,
+            GAME_STOP
         }
 
         public static int TILE_SIZE = 4;
@@ -29,6 +30,8 @@ namespace LabyrinthDeck
         private CameraFollow _camera;
 
         private RandomNumberGenerator _rng;
+
+        private string _sceneToLoad;
 
         public override void _Ready()
         {
@@ -54,6 +57,7 @@ namespace LabyrinthDeck
             _player.SubscribeToGameEvents(this);
             _player.Connect("MovementFinished", this, nameof(OnPlayerMovementFinished));
             _player.Connect("StepFinished", this, nameof(OnPlayerStepFinished));
+            _player.Connect("GameOver", this, nameof(OnGameOver));
         }
 
         private void InitHUD()
@@ -61,6 +65,7 @@ namespace LabyrinthDeck
             _hud = GetNode<HUD>("HUD");
             _hud.SubscribeToGameEvents(this);
             _hud.Connect("UIReady", this, nameof(OnUIReady));
+            _hud.Connect("ChangeScene", this, nameof(OnChangeScene));
             _hud.Connect("CardSelected", this, nameof(OnCardSelected));
             _hud.Connect("ResetGame", this, nameof(OnResetGame));
         }
@@ -68,14 +73,17 @@ namespace LabyrinthDeck
         private void InitEnemies()
         {
             _enemies = GetNode<EnemiesControl>("enemies_control");
-            _enemies.Connect("MovementFinished", this, nameof(OnEnemiesMovementFinished));
             _enemies.Init(_maze);
+            _enemies.SubscribeToGameEvents(this);
+            _enemies.Connect("MovementFinished", this, nameof(OnEnemiesMovementFinished));
         }
 
         private void InitCamera()
         {
             _camera = GetNode<CameraFollow>("camera_follow");
             _camera.Init(_player);
+            _camera.SubscribeToGameEvents(this);
+            _camera.Connect("CameraFocused", this, nameof(OnCameraFocused));
         }
 
         private void PlayTurn()
@@ -225,39 +233,46 @@ namespace LabyrinthDeck
 
         private bool CheckIfGameContinues()
         {
-            if (_enemies.IsEnemyAtLocation(_player.CurrentTile))
-            {
-                DoGameOver();
-                return false;
-            }
-
             if (_maze.GoalPos.Equals(_player.CurrentTile))
             {
-                DoWinGame();
+                OnWinGame();
                 return false;
             }
 
             return true;
         }
 
-        async private void DoGameOver()
+        private void OnGameOver()
         {
             GD.Print("GAME OVER");
+            _state = GameState.GAME_STOP;
+            _sceneToLoad = "res://assets/scenes/game_over.tscn";
             EmitSignal(nameof(GameOver));
-
-            await ToSignal(GetTree().CreateTimer(3f), "timeout");
-
-            OnResetGame();
         }
 
-        async private void DoWinGame()
+        private void OnWinGame()
         {
             GD.Print("YOU WIN!!");
+            _state = GameState.GAME_STOP;
+            _sceneToLoad = "res://assets/scenes/win.tscn";
             EmitSignal(nameof(WinGame));
 
-            await ToSignal(GetTree().CreateTimer(3f), "timeout");
-            
-            OnResetGame();
+            DoWinScene();
+        }
+
+        private void OnCameraFocused()
+        {
+            _hud.FadeIn();
+        }
+
+        private void OnChangeScene()
+        {
+            GetTree().ChangeScene(_sceneToLoad);
+        }
+
+        private void DoWinScene()
+        {
+
         }
 
         private void OnResetGame()
@@ -286,11 +301,8 @@ namespace LabyrinthDeck
 
         private void OnEnemiesMovementFinished()
         {
-            if (CheckIfGameContinues())
-            {
-                _state = GameState.PLAYER_TURN;
-                PlayTurn();
-            }
+            _state = GameState.PLAYER_TURN;
+            PlayTurn();
         }
     }
 }
