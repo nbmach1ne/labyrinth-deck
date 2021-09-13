@@ -13,7 +13,8 @@ namespace LabyrinthDeck
         [Signal]
         delegate void CardChoosen(int cardIndex);
 
-        // Tween variables
+        // Animation variables
+        private AnimationPlayer _anim;
         private Tween _tween;
         private Control _hiddenPos;
         private Control _shownPos;
@@ -23,6 +24,7 @@ namespace LabyrinthDeck
 
         public override void _Ready()
         {
+            _anim = GetNode<AnimationPlayer> ("anim");
             _tween = GetNode<Tween>("tween");
         }
 
@@ -49,11 +51,21 @@ namespace LabyrinthDeck
 
         public void ShowCard()
         {
+            Disabled = false;
             // From _hiddenPos to _shownPos
             _tween.InterpolateProperty(this, "rect_position", _hiddenPos.RectPosition, _shownPos.RectPosition, 0.5f,
                                        Tween.TransitionType.Expo, Tween.EaseType.Out,
                                        _showDelay);
-            _tween.Start();
+            _tween.InterpolateCallback(this, _tween.GetRuntime(), nameof(CheckIfHovered));
+            _tween.Start();            
+        }
+
+        private void CheckIfHovered()
+        {
+            if (IsHovered())
+            {
+                _on_card_mouse_entered();
+            }
         }
 
         public void HideCard()
@@ -65,13 +77,16 @@ namespace LabyrinthDeck
 
         public void ChooseCard(Control callbackNode, string callbackName, int callbackArg)
         {
+            Disabled = true;
             // From _shownPos to _choosenPos
             _tween.InterpolateProperty(this, "rect_position", _shownPos.RectPosition, _choosenPos.RectPosition, 0.25f,
                                        Tween.TransitionType.Expo, Tween.EaseType.Out);
             // From current scale to _choosenPos scale
             _tween.InterpolateProperty(this, "rect_scale", RectScale, _choosenPos.RectScale, 0.25f,
                                        Tween.TransitionType.Expo, Tween.EaseType.Out);
-            // Wait a little bit and go back to _hiddenPos
+            // Flip card
+            _tween.InterpolateCallback(this, _tween.GetRuntime(), nameof(FlipCard));
+            // After the flip animation go back to _hiddenPos
             _tween.InterpolateProperty(this, "rect_scale", _choosenPos.RectScale, Vector2.One, 0.25f,
                                        Tween.TransitionType.Expo, Tween.EaseType.In,
                                        0.5f);
@@ -80,6 +95,11 @@ namespace LabyrinthDeck
                                        0.5f);
             _tween.InterpolateCallback(callbackNode, _tween.GetRuntime(), callbackName, callbackArg);
             _tween.Start();
+        }
+
+        private void FlipCard()
+        {
+            _anim.Play("flip");
         }
 
         public void _on_card_mouse_entered()

@@ -1,17 +1,28 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/sprites/menu/title.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/menu/eyes_front.png" type="Texture" id=2]
-[ext_resource path="res://assets/sprites/menu/cards.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/menu/button_normal.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/menu/character.png" type="Texture" id=4]
-[ext_resource path="res://assets/sprites/menu/eyes_back.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/menu/button_highlighted.png" type="Texture" id=5]
 [ext_resource path="res://assets/shaders/wobbly.shader" type="Shader" id=6]
 [ext_resource path="res://assets/scripts/UI/Start.cs" type="Script" id=7]
 [ext_resource path="res://assets/scenes/fade.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/sprites/menu/menu_mockup.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/menu/eyes_back_right.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/menu/eyes_back_left.png" type="Texture" id=11]
+[ext_resource path="res://assets/sprites/menu/cards_back_left_2.png" type="Texture" id=12]
+[ext_resource path="res://assets/sprites/menu/cards_back_left_1.png" type="Texture" id=13]
+[ext_resource path="res://assets/sprites/menu/cards_back_right_1.png" type="Texture" id=14]
+[ext_resource path="res://assets/sprites/menu/cards_back_right_2.png" type="Texture" id=15]
+[ext_resource path="res://assets/sprites/menu/cards_left.png" type="Texture" id=16]
+[ext_resource path="res://assets/sprites/menu/cards_right.png" type="Texture" id=17]
+[ext_resource path="res://assets/sprites/menu/cards_front_right.png" type="Texture" id=18]
+[ext_resource path="res://assets/sprites/menu/cards_front_left.png" type="Texture" id=19]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 6 )
-shader_param/noise_scale = 2.0
+shader_param/noise_scale = 1.0
 shader_param/time_snap = 0.25
 
 [sub_resource type="Animation" id=2]
@@ -28,7 +39,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 8 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 40, 24 ), Vector2( 40, 32 ), Vector2( 40, 24 ) ]
 }
 
 [node name="start" type="Node"]
@@ -41,35 +52,167 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="eyes_back" type="TextureRect" parent="menu"]
+[node name="reference" type="TextureRect" parent="menu"]
+visible = false
+modulate = Color( 1, 1, 1, 0.427451 )
+margin_left = -50.0
+margin_top = -50.0
+margin_right = 850.0
+margin_bottom = 650.0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="eyes" type="Control" parent="menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="eyes_back_left" type="TextureRect" parent="menu/eyes"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -400.0
-margin_top = -600.0
-margin_right = 400.0
+margin_left = -624.0
+margin_top = -648.0
+margin_right = 176.0
+margin_bottom = 52.0
 mouse_filter = 2
-texture = ExtResource( 5 )
+texture = ExtResource( 11 )
 stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="cards" type="TextureRect" parent="menu"]
+[node name="eyes_back_right" type="TextureRect" parent="menu/eyes"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -400.0
-margin_top = -600.0
-margin_right = 400.0
+margin_left = -176.0
+margin_top = -648.0
+margin_right = 624.0
+margin_bottom = 52.0
 mouse_filter = 2
-texture = ExtResource( 3 )
+texture = ExtResource( 10 )
 stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="eyes_front" type="TextureRect" parent="menu/eyes"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -256.0
+margin_top = -504.0
+margin_right = 256.0
+margin_bottom = -248.0
+mouse_filter = 2
+texture = ExtResource( 2 )
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cards" type="Control" parent="menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cards_back_left_1" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -232.0
+margin_top = -296.0
+margin_right = -104.0
+margin_bottom = -168.0
+texture = ExtResource( 13 )
+
+[node name="cards_back_left_2" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -416.0
+margin_top = -392.0
+margin_right = -272.0
+margin_bottom = -264.0
+texture = ExtResource( 12 )
+
+[node name="cards_back_right_1" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 112.0
+margin_top = -328.0
+margin_right = 240.0
+margin_bottom = -200.0
+texture = ExtResource( 14 )
+
+[node name="cards_back_right_2" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 328.0
+margin_top = -416.0
+margin_right = 456.0
+margin_bottom = -288.0
+texture = ExtResource( 15 )
+
+[node name="cards_left" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -440.0
+margin_top = -336.0
+margin_right = -184.0
+margin_bottom = -80.0
+texture = ExtResource( 16 )
+
+[node name="cards_right" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 192.0
+margin_top = -192.0
+margin_right = 448.0
+margin_bottom = 64.0
+texture = ExtResource( 17 )
+
+[node name="cards_front_left" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -424.0
+margin_top = -176.0
+margin_right = -104.0
+margin_bottom = 80.0
+texture = ExtResource( 19 )
+
+[node name="cards_front_right" type="TextureRect" parent="menu/cards"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 136.0
+margin_top = -352.0
+margin_right = 456.0
+margin_bottom = -32.0
+texture = ExtResource( 18 )
 
 [node name="character" type="TextureRect" parent="menu"]
 material = SubResource( 1 )
@@ -77,26 +220,12 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -400.0
-margin_top = -600.0
-margin_right = 400.0
+margin_left = -144.0
+margin_top = -384.0
+margin_right = 144.0
+margin_bottom = 32.0
 mouse_filter = 2
 texture = ExtResource( 4 )
-stretch_mode = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="eyes_front" type="TextureRect" parent="menu"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -400.0
-margin_top = -600.0
-margin_right = 400.0
-mouse_filter = 2
-texture = ExtResource( 2 )
 stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
@@ -105,10 +234,10 @@ __meta__ = {
 [node name="title" type="TextureRect" parent="menu"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -400.0
-margin_top = 6.84878
-margin_right = 400.0
-margin_bottom = 606.849
+margin_left = -360.0
+margin_top = 27.7354
+margin_right = 360.0
+margin_bottom = 171.735
 mouse_filter = 2
 texture = ExtResource( 1 )
 stretch_mode = 4
@@ -120,16 +249,16 @@ __meta__ = {
 autoplay = "idle"
 anims/idle = SubResource( 2 )
 
-[node name="start_button" type="Button" parent="menu"]
+[node name="start_button" type="TextureButton" parent="menu"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -96.0
-margin_top = -72.0
-margin_right = 96.0
-margin_bottom = -8.0
-text = "ENTER THE LABYRINTH"
+margin_left = -224.0
+margin_top = -96.0
+margin_right = 224.0
+texture_normal = ExtResource( 3 )
+texture_hover = ExtResource( 5 )
 
 [node name="fade" parent="menu" instance=ExtResource( 8 )]
 

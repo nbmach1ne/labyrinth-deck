@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://assets/scripts/HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/scripts/CameraFollow.cs" type="Script" id=2]
@@ -34,21 +34,109 @@
 [ext_resource path="res://assets/sprites/cards/stun.png" type="Texture" id=32]
 [ext_resource path="res://assets/scenes/mazes/maze_1.tscn" type="PackedScene" id=33]
 [ext_resource path="res://assets/scenes/fade.tscn" type="PackedScene" id=34]
+[ext_resource path="res://assets/sprites/cards/back.png" type="Texture" id=35]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 19 )
 shader_param/noise_scale = 0.0
 shader_param/time_snap = 0.25
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 19 )
-shader_param/noise_scale = 0.0
-shader_param/time_snap = 0.25
+[sub_resource type="Animation" id=2]
+resource_name = "flip"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:texture_normal")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 35 ), ExtResource( 35 ) ]
+}
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 19 )
 shader_param/noise_scale = 0.0
 shader_param/time_snap = 0.25
+
+[sub_resource type="Animation" id=4]
+resource_name = "flip"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:texture_normal")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 35 ), ExtResource( 35 ) ]
+}
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 19 )
+shader_param/noise_scale = 0.0
+shader_param/time_snap = 0.25
+
+[sub_resource type="Animation" id=6]
+resource_name = "flip"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:texture_normal")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 35 ), ExtResource( 35 ) ]
+}
 
 [node name="level_1" type="Node"]
 script = ExtResource( 14 )
@@ -114,7 +202,7 @@ margin_top = 112.0
 margin_right = 64.0
 margin_bottom = 264.0
 rect_pivot_offset = Vector2( 64, 76 )
-texture_normal = ExtResource( 7 )
+texture_normal = ExtResource( 35 )
 script = ExtResource( 31 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -123,8 +211,11 @@ _showDelay = 0.0
 
 [node name="tween" type="Tween" parent="HUD/card_0"]
 
+[node name="anim" type="AnimationPlayer" parent="HUD/card_0"]
+anims/flip = SubResource( 2 )
+
 [node name="card_1" type="TextureButton" parent="HUD"]
-material = SubResource( 2 )
+material = SubResource( 3 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -143,8 +234,11 @@ _showDelay = 0.1
 
 [node name="tween" type="Tween" parent="HUD/card_1"]
 
+[node name="anim" type="AnimationPlayer" parent="HUD/card_1"]
+anims/flip = SubResource( 4 )
+
 [node name="card_2" type="TextureButton" parent="HUD"]
-material = SubResource( 3 )
+material = SubResource( 5 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -162,6 +256,9 @@ __meta__ = {
 _showDelay = 0.2
 
 [node name="tween" type="Tween" parent="HUD/card_2"]
+
+[node name="anim" type="AnimationPlayer" parent="HUD/card_2"]
+anims/flip = SubResource( 6 )
 
 [node name="game_over" type="Control" parent="HUD"]
 margin_right = 40.0

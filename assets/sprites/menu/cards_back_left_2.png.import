@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/eyes_back.png-8eeafe0262a163e7672757452b1c4c21.stex"
+path="res://.import/cards_back_left_2.png-f37156b564fd1d10172c4fbf83ae7ecb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/menu/eyes_back.png"
-dest_files=[ "res://.import/eyes_back.png-8eeafe0262a163e7672757452b1c4c21.stex" ]
+source_file="res://assets/sprites/menu/cards_back_left_2.png"
+dest_files=[ "res://.import/cards_back_left_2.png-f37156b564fd1d10172c4fbf83ae7ecb.stex" ]
 
 [params]
 
