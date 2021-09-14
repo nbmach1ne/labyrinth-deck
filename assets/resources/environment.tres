@@ -3,3 +3,11 @@
 [resource]
 background_mode = 1
 background_color = Color( 0.278431, 0.184314, 0.396078, 1 )
+dof_blur_far_distance = 55.47
+dof_blur_far_transition = 2.55
+dof_blur_far_quality = 0
+glow_enabled = true
+glow_intensity = 3.05
+glow_strength = 1.13
+glow_bloom = 0.01
+glow_blend_mode = 0

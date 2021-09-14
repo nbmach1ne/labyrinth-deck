@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://assets/scripts/HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/scripts/CameraFollow.cs" type="Script" id=2]
@@ -35,48 +35,34 @@
 [ext_resource path="res://assets/scenes/mazes/maze_1.tscn" type="PackedScene" id=33]
 [ext_resource path="res://assets/scenes/fade.tscn" type="PackedScene" id=34]
 [ext_resource path="res://assets/sprites/cards/back.png" type="Texture" id=35]
+[ext_resource path="res://assets/models/materials/flat_colors.gdshader" type="Shader" id=36]
+[ext_resource path="res://assets/models/materials/palette.png" type="Texture" id=37]
 
-[sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 19 )
-shader_param/noise_scale = 0.0
-shader_param/time_snap = 0.25
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+params_cull_mode = 1
+params_grow = true
+params_grow_amount = 0.1
+albedo_color = Color( 0.278431, 0.184314, 0.396078, 1 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "flip"
-length = 0.5
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.2, 0.3, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ), Vector2( 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:texture_normal")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.3, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ ExtResource( 35 ), ExtResource( 35 ) ]
-}
+[sub_resource type="ShaderMaterial" id=2]
+next_pass = SubResource( 1 )
+shader = ExtResource( 36 )
+shader_param/tint = Color( 1, 1, 1, 1 )
+shader_param/texture = ExtResource( 37 )
 
 [sub_resource type="ShaderMaterial" id=3]
+next_pass = SubResource( 1 )
+shader = ExtResource( 36 )
+shader_param/tint = Color( 1, 1, 1, 1 )
+shader_param/texture = ExtResource( 37 )
+
+[sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 19 )
 shader_param/noise_scale = 0.0
 shader_param/time_snap = 0.25
 
-[sub_resource type="Animation" id=4]
-resource_name = "flip"
+[sub_resource type="Animation" id=5]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -104,13 +90,45 @@ tracks/1/keys = {
 "values": [ ExtResource( 35 ), ExtResource( 35 ) ]
 }
 
-[sub_resource type="ShaderMaterial" id=5]
+[sub_resource type="ShaderMaterial" id=6]
 shader = ExtResource( 19 )
 shader_param/noise_scale = 0.0
 shader_param/time_snap = 0.25
 
-[sub_resource type="Animation" id=6]
-resource_name = "flip"
+[sub_resource type="Animation" id=7]
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:texture_normal")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 35 ), ExtResource( 35 ) ]
+}
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 19 )
+shader_param/noise_scale = 0.0
+shader_param/time_snap = 0.25
+
+[sub_resource type="Animation" id=9]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -145,6 +163,7 @@ script = ExtResource( 14 )
 environment = ExtResource( 5 )
 
 [node name="maze" parent="." instance=ExtResource( 33 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0 )
 
 [node name="player" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, 68 )
@@ -160,14 +179,20 @@ script = ExtResource( 6 )
 
 [node name="enemy" parent="enemies_control" instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 48 )
-_initialTile = Vector2( 12, 13 )
+_initialTile = Vector2( 13, 12 )
 _type = 1
 _maxMovementSteps = 2
+
+[node name="Eye" parent="enemies_control/enemy/character" index="0"]
+material/0 = SubResource( 2 )
 
 [node name="enemy2" parent="enemies_control" instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 24 )
 _initialTile = Vector2( 1, 6 )
 _minMovementSteps = 3
+
+[node name="Eye" parent="enemies_control/enemy2/character" index="0"]
+material/0 = SubResource( 3 )
 
 [node name="camera_follow" type="Spatial" parent="."]
 transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 22, 35, 85 )
@@ -206,7 +231,7 @@ __meta__ = {
 }
 
 [node name="card_0" type="TextureButton" parent="HUD"]
-material = SubResource( 1 )
+material = SubResource( 4 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -226,10 +251,10 @@ _showDelay = 0.0
 [node name="tween" type="Tween" parent="HUD/card_0"]
 
 [node name="anim" type="AnimationPlayer" parent="HUD/card_0"]
-anims/flip = SubResource( 2 )
+anims/flip = SubResource( 5 )
 
 [node name="card_1" type="TextureButton" parent="HUD"]
-material = SubResource( 3 )
+material = SubResource( 6 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -249,10 +274,10 @@ _showDelay = 0.1
 [node name="tween" type="Tween" parent="HUD/card_1"]
 
 [node name="anim" type="AnimationPlayer" parent="HUD/card_1"]
-anims/flip = SubResource( 4 )
+anims/flip = SubResource( 7 )
 
 [node name="card_2" type="TextureButton" parent="HUD"]
-material = SubResource( 5 )
+material = SubResource( 8 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -272,7 +297,7 @@ _showDelay = 0.2
 [node name="tween" type="Tween" parent="HUD/card_2"]
 
 [node name="anim" type="AnimationPlayer" parent="HUD/card_2"]
-anims/flip = SubResource( 6 )
+anims/flip = SubResource( 9 )
 
 [node name="game_over" type="Control" parent="HUD"]
 margin_right = 40.0
@@ -315,10 +340,15 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -192.0
-margin_top = -152.0
+margin_top = -160.0
 margin_right = -64.0
+margin_bottom = -8.0
+rect_rotation = -4.5
 rect_pivot_offset = Vector2( 64, 76 )
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="cards_shown_pos_1" type="Control" parent="HUD"]
 anchor_left = 0.5
@@ -326,8 +356,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -64.0
-margin_top = -152.0
+margin_top = -168.0
 margin_right = 64.0
+margin_bottom = -16.0
 rect_pivot_offset = Vector2( 64, 76 )
 mouse_filter = 2
 
@@ -337,10 +368,15 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = 64.0
-margin_top = -152.0
+margin_top = -160.0
 margin_right = 192.0
+margin_bottom = -8.0
+rect_rotation = 4.5
 rect_pivot_offset = Vector2( 64, 76 )
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="fade" parent="HUD" instance=ExtResource( 34 )]
 
@@ -352,3 +388,7 @@ mouse_filter = 2
 [connection signal="mouse_exited" from="HUD/card_2" to="HUD/card_2" method="_on_card_mouse_exited"]
 
 [editable path="player"]
+[editable path="enemies_control/enemy"]
+[editable path="enemies_control/enemy/character"]
+[editable path="enemies_control/enemy2"]
+[editable path="enemies_control/enemy2/character"]

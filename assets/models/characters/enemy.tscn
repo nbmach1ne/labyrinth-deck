@@ -1,9 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/models/characters/enemy.glb" type="PackedScene" id=1]
-[ext_resource path="res://assets/models/materials/characters.tres" type="Material" id=2]
+[ext_resource path="res://assets/models/materials/palette.png" type="Texture" id=2]
+[ext_resource path="res://assets/models/materials/flat_colors.gdshader" type="Shader" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+params_cull_mode = 1
+params_grow = true
+params_grow_amount = 0.1
+albedo_color = Color( 0.278431, 0.184314, 0.396078, 1 )
+
+[sub_resource type="ShaderMaterial" id=2]
+next_pass = SubResource( 1 )
+shader = ExtResource( 3 )
+shader_param/tint = Color( 1, 1, 1, 1 )
+shader_param/texture = ExtResource( 2 )
 
 [node name="enemy" instance=ExtResource( 1 )]
 
 [node name="Eye" parent="." index="0"]
-material/0 = ExtResource( 2 )
+material/0 = SubResource( 2 )

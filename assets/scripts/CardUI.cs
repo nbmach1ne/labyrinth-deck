@@ -56,6 +56,8 @@ namespace LabyrinthDeck
             _tween.InterpolateProperty(this, "rect_position", _hiddenPos.RectPosition, _shownPos.RectPosition, 0.5f,
                                        Tween.TransitionType.Expo, Tween.EaseType.Out,
                                        _showDelay);
+            _tween.InterpolateProperty(this, "rect_rotation", _hiddenPos.RectRotation, _shownPos.RectRotation, 0.25f,
+                                       Tween.TransitionType.Expo, Tween.EaseType.Out);
             _tween.InterpolateCallback(this, _tween.GetRuntime(), nameof(CheckIfHovered));
             _tween.Start();            
         }
@@ -81,11 +83,13 @@ namespace LabyrinthDeck
             // From _shownPos to _choosenPos
             _tween.InterpolateProperty(this, "rect_position", _shownPos.RectPosition, _choosenPos.RectPosition, 0.25f,
                                        Tween.TransitionType.Expo, Tween.EaseType.Out);
+            _tween.InterpolateProperty(this, "rect_rotation", _shownPos.RectRotation, _choosenPos.RectRotation, 0.25f,
+                                       Tween.TransitionType.Expo, Tween.EaseType.Out);
             // From current scale to _choosenPos scale
             _tween.InterpolateProperty(this, "rect_scale", RectScale, _choosenPos.RectScale, 0.25f,
                                        Tween.TransitionType.Expo, Tween.EaseType.Out);
             // Flip card
-            _tween.InterpolateCallback(this, _tween.GetRuntime(), nameof(FlipCard));
+            _tween.InterpolateCallback(this, _tween.GetRuntime() + 0.1f, nameof(FlipCard));
             // After the flip animation go back to _hiddenPos
             _tween.InterpolateProperty(this, "rect_scale", _choosenPos.RectScale, Vector2.One, 0.25f,
                                        Tween.TransitionType.Expo, Tween.EaseType.In,
@@ -105,15 +109,21 @@ namespace LabyrinthDeck
         public void _on_card_mouse_entered()
         {
             GD.Print("CARD_ENTERED");
-            RectScale = _mouseOverScale;
-            Material.Set("shader_param/noise_scale", 2f);
+            if (!Disabled)
+            {
+                RectScale = _mouseOverScale;
+                Material.Set("shader_param/noise_scale", 2f);
+            }
         }
 
         public void _on_card_mouse_exited()
         {
             GD.Print("CARD_EXITED");
-            RectScale = Vector2.One;
-            Material.Set("shader_param/noise_scale", 0f);
+            if (!Disabled)
+            {
+                RectScale = Vector2.One;
+                Material.Set("shader_param/noise_scale", 0f);
+            }
         }
     }
 }

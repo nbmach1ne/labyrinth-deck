@@ -1,17 +1,19 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=2]
 
 [ext_resource path="res://assets/models/materials/palette.png" type="Texture" id=1]
-[ext_resource path="res://assets/models/materials/flat_colors.gdshader" type="Shader" id=2]
+[ext_resource path="res://assets/shaders/3d_wobbly.gdshader" type="Shader" id=2]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_unshaded = true
 params_cull_mode = 1
 params_grow = true
-params_grow_amount = 0.1
+params_grow_amount = 0.055
 albedo_color = Color( 0.278431, 0.184314, 0.396078, 1 )
 
 [resource]
 next_pass = SubResource( 1 )
 shader = ExtResource( 2 )
 shader_param/tint = Color( 1, 1, 1, 1 )
+shader_param/noise_scale = 0.025
+shader_param/time_snap = 0.25
 shader_param/texture = ExtResource( 1 )

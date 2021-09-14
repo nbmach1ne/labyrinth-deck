@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/sprites/menu/title.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/menu/eyes_front.png" type="Texture" id=2]
@@ -20,14 +20,24 @@
 [ext_resource path="res://assets/sprites/menu/cards_front_right.png" type="Texture" id=18]
 [ext_resource path="res://assets/sprites/menu/cards_front_left.png" type="Texture" id=19]
 
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 6 )
+shader_param/noise_scale = 1.0
+shader_param/time_snap = 0.25
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 6 )
+shader_param/noise_scale = 1.0
+shader_param/time_snap = 0.25
+
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 6 )
 shader_param/noise_scale = 1.0
 shader_param/time_snap = 0.25
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=5]
 resource_name = "idle"
-length = 2.0
+length = 3.0
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
@@ -36,10 +46,26 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
+"times": PoolRealArray( 0, 1.5, 3 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 40, 24 ), Vector2( 40, 32 ), Vector2( 40, 24 ) ]
+"values": [ Vector2( 40, 16 ), Vector2( 40, 32 ), Vector2( 40, 16 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "start"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 2, 0.5, 0.5 ),
+"update": 0,
+"values": [ Vector2( 40, -144 ), Vector2( 40, 40 ), Vector2( 40, 16 ) ]
 }
 
 [node name="start" type="Node"]
@@ -72,6 +98,7 @@ __meta__ = {
 }
 
 [node name="eyes_back_left" type="TextureRect" parent="menu/eyes"]
+material = SubResource( 3 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -88,6 +115,7 @@ __meta__ = {
 }
 
 [node name="eyes_back_right" type="TextureRect" parent="menu/eyes"]
+material = SubResource( 4 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -235,9 +263,9 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -360.0
-margin_top = 27.7354
+margin_top = 22.5067
 margin_right = 360.0
-margin_bottom = 171.735
+margin_bottom = 166.507
 mouse_filter = 2
 texture = ExtResource( 1 )
 stretch_mode = 4
@@ -245,9 +273,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="menu/title"]
-autoplay = "idle"
-anims/idle = SubResource( 2 )
+[node name="anim" type="AnimationPlayer" parent="menu/title"]
+autoplay = "start"
+anims/idle = SubResource( 5 )
+anims/start = SubResource( 6 )
+next/start = "idle"
 
 [node name="start_button" type="TextureButton" parent="menu"]
 anchor_left = 0.5
@@ -259,6 +289,9 @@ margin_top = -96.0
 margin_right = 224.0
 texture_normal = ExtResource( 3 )
 texture_hover = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="fade" parent="menu" instance=ExtResource( 8 )]
 
